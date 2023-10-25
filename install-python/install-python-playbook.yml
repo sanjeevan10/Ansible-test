@@ -1,0 +1,22 @@
+---
+- name: output host file
+  become: yes
+  hosts: web2
+  tasks:
+    - name: On run update_cache =yes if the last one is more than 3600 ago
+      apt:
+
+
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: upgrade
+      apt:
+        upgrade: dist
+        update_cache: yes
+
+    - name: install python3
+      become: yes
+      apt: 
+        pkg:
+          - python3
+        state: present

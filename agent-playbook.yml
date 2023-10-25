@@ -1,9 +1,0 @@
----
-- name: output host file
-  hosts: web1
-  tasks:
-    - shell: cat /etc/hosts
-      register: result
-
-    - debug: 
-        var: result
