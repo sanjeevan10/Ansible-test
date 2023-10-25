@@ -1,0 +1,33 @@
+---
+- name: install nginx
+  hosts: all
+  become: true
+
+  vars:
+    packages:
+      - name: nginx
+        required: true
+      - name: mysql
+        required: true
+      - name: apache
+        required: Flase
+
+  tasks:
+    - name: display ansible facts
+      register: result
+      debug:
+        var: ansible_facts.os_family
+
+    - name: Install "{{ item.name }}" on Debian
+      apt:
+        name: "{{ item.name }}"
+        state: present
+        # update_cache: yes
+
+
+      loop: "{{ packages }}"
+    
+    - name: Ensure the configuraion line is present
+      lineinfile:
+        path: /etc/nginx/nginx.conf
+        line: 'client_max_body_size 100M'
